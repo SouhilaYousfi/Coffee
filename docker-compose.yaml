@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: coffeebackend
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/var/www
+      - ./backend/vendor:/var/www/vendor
+
+  composer:
+    build:
+      context: ./backend
+    container_name: coffee-composer
+    command: composer install
+    volumes:
+      - ./backend:/var/www
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: coffeefrontend
+    ports:
+      - 3100:3000
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
