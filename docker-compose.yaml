@@ -1,23 +1,15 @@
-version: "3.8"
-
 services:
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile
     container_name: coffeebackend
     ports:
       - 8000:8000
     volumes:
       - ./backend:/var/www
-      - ./backend/vendor:/var/www/vendor
-
-  composer:
-    build:
-      context: ./backend
-    container_name: coffee-composer
-    command: composer install
-    volumes:
-      - ./backend:/var/www
+      - ./backend/storage:/var/www/storage
+    command: sh -c "composer install && php artisan migrate && composer run dev"
 
   frontend:
     build:
@@ -33,3 +25,5 @@ services:
       - NODE_ENV=development
     depends_on:
       - backend
+
+

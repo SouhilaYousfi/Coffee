@@ -23,11 +23,4 @@ Une application web simulant une machine à café connectée, avec un backend La
 ```bash
 docker compose up --build
 ```
-
-Vous devrez ensuite lancer la migration Laravel
-
-```bash
-docker compose exec coffeebackend php artisan migrate
-```
-
 Puis accéder à l'interface web http://localhost:3100/
